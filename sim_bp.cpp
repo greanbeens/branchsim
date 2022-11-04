@@ -3,6 +3,7 @@
 #include <string.h>
 #include <cstdint>
 #include "sim_bp.h"
+#include <vector>
 
 /*  argc holds the number of command line arguments
     argv[] holds the commands themselves
@@ -89,17 +90,17 @@ int main (int argc, char* argv[])
 
     uint32_t index;
     uint32_t mask;
-
-    // get mask of length M2 and isolate index
-    mask = (1 << params.M2) - 1;
-    index = (addr >> (2)) & mask;
     int len = 2;
-    for (int i=0; i<params.M2 -1; i++){
+    for (int i=0; i<params.M2 -1; i++) {
         len *= 2;
     }
-    uint32_t arr [len];
+
+
+
+    std::vector<int> arr;
+
     for (int i=0; i<len; i++){
-        arr[i] = 2;
+        arr.push_back(2);
     }
 
     uint32_t predictions = 0;
@@ -108,6 +109,11 @@ int main (int argc, char* argv[])
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
     {
+        // get mask of length M2 and isolate index
+        mask = (1 << params.M2) - 1;
+        index = (addr >> (2)) & mask;
+
+
 
         outcome = str[0];
         /*
@@ -133,10 +139,11 @@ int main (int argc, char* argv[])
     printf("OUTPUT\n");
     printf("number of predictions:    %u\n", predictions);
     printf("number of mispredictions: %u\n", mispredictions);
-    printf("misprediction rate:       %.2f\n", (double)(mispredictions/predictions));
+    printf("misprediction rate:       %.2f\n", ((double)mispredictions/(double)predictions));
     printf("FINAL GSHARE CONTENTS\n");
-    for (int i; i<len; i++){
-        printf("%u   %u", i, arr[i]);
+
+    for (int i=0; i<arr.size(); i++){
+        printf("%u   %u\n", i, arr[i]);
     }
 
 
