@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include <cstdint>
+#include <inttypes.h>
 #include "sim.h"
 #include <vector>
 
@@ -88,9 +88,9 @@ int main (int argc, char* argv[])
     }
 
 
-    int index;
-    int mask;
-    int len = 2;
+    uint32_t index;
+    uint32_t mask;
+    uint32_t  len = 2;
     for (int i=0; i<params.M2 -1; i++) {
         len *= 2;
     }
@@ -141,8 +141,8 @@ int main (int argc, char* argv[])
     printf("number of mispredictions: %u\n", mispredictions);
     printf("misprediction rate:       %.2f%\n", ((double)mispredictions/(double)predictions)*100);
     printf("FINAL GSHARE CONTENTS\n");
-    
-    for (int i=0; i<arr.size(); i++){
+
+    for (int i=0; i<len; i++){
         printf("%u   %u\n", i, arr[i]);
     }
 
