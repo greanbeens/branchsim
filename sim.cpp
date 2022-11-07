@@ -145,7 +145,10 @@ int main (int argc, char* argv[])
     printf("number of predictions:    %u\n", predictions);
     printf("number of mispredictions: %u\n", mispredictions);
     printf("misprediction rate:       %.2f%\n", ((double)mispredictions/(double)predictions)*100);
-    printf("FINAL GSHARE CONTENTS\n");
+
+    if (strcmp(params.bp_name, "bimodal") == 0) {
+        printf("FINAL BIMODAL CONTENTS\n");
+    }
 
     if (strcmp(params.bp_name, "bimodal") == 0) {
         for (int i = 0; i < arr.size(); i++) {
