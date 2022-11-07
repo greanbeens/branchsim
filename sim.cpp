@@ -91,16 +91,20 @@ int main (int argc, char* argv[])
     uint32_t index;
     uint32_t mask;
     uint32_t  len = 2;
-    for (int i=0; i<params.M2 -1; i++) {
-        len *= 2;
+
+    if (strcmp(params.bp_name, "bimodal") == 0) {
+        for (int i = 0; i < params.M2 - 1; i++) {
+            len *= 2;
+        }
     }
 
 
 
     std::vector<int> arr;
-
-    for (int i=0; i<len; i++){
-        arr.push_back(2);
+    if (strcmp(params.bp_name, "bimodal") == 0) {
+        for (int i = 0; i < len; i++) {
+            arr.push_back(2);
+        }
     }
 
     int predictions = 0;
@@ -108,7 +112,7 @@ int main (int argc, char* argv[])
 
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF) {
-        if (params.bp_name == "bimodal") {
+        if (strcmp(params.bp_name, "bimodal") == 0) {
             // get mask of length M2 and isolate index
             mask = (1 << params.M2) - 1;
             index = (addr >> (2)) & mask;
@@ -134,6 +138,7 @@ int main (int argc, char* argv[])
 
 
         }
+        else predictions = 1;
     }
 
     printf("OUTPUT\n");
@@ -142,8 +147,8 @@ int main (int argc, char* argv[])
     printf("misprediction rate:       %.2f%\n", ((double)mispredictions/(double)predictions)*100);
     printf("FINAL GSHARE CONTENTS\n");
 
-    if (params.bp_name == "bimodal") {
-        for (int i = 0; i < len; i++) {
+    if (strcmp(params.bp_name, "bimodal") == 0) {
+        for (int i = 0; i < arr.size(); i++) {
             printf("%u   %u\n", i, arr[i]);
         }
     }
