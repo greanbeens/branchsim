@@ -141,11 +141,11 @@ int main (int argc, char* argv[])
     printf("number of mispredictions: %u\n", mispredictions);
     printf("misprediction rate:       %.2f%\n", ((double)mispredictions/(double)predictions)*100);
     printf("FINAL GSHARE CONTENTS\n");
-
+    /*
     for (int i=0; i<arr.size(); i++){
         printf("%u   %u\n", i, arr[i]);
     }
-
+*/
 
 
 
