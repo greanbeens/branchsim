@@ -107,33 +107,33 @@ int main (int argc, char* argv[])
     int mispredictions = 0;
 
     char str[2];
-    while(fscanf(FP, "%lx %s", &addr, str) != EOF)
-    {
-        // get mask of length M2 and isolate index
-        mask = (1 << params.M2) - 1;
-        index = (addr >> (2)) & mask;
+    while(fscanf(FP, "%lx %s", &addr, str) != EOF) {
+        if (params.bp_name == "bimodal") {
+            // get mask of length M2 and isolate index
+            mask = (1 << params.M2) - 1;
+            index = (addr >> (2)) & mask;
 
 
+            outcome = str[0];
+            /*
+            if (outcome == 't')
+                printf("%lx %s\n", addr, "t");           // Print and test if file is read correctly
+            else if (outcome == 'n') printf("%lx %s\n", addr, "n");          // Print and test if file is read correctly
+            */
 
-        outcome = str[0];
-        /*
-        if (outcome == 't')
-            printf("%lx %s\n", addr, "t");           // Print and test if file is read correctly
-        else if (outcome == 'n') printf("%lx %s\n", addr, "n");          // Print and test if file is read correctly
-        */
+            predictions++;
 
-        predictions++;
+            if (*str == 't') {
+                if (arr[index] < 2) mispredictions++;
+                if (arr[index] != 3) arr[index]++;
 
-        if (*str == 't'){
-            if (arr[index] < 2) mispredictions++;
-            if (arr[index] != 3) arr[index]++;
+            } else if (*str == 'n') {
+                if (arr[index] >= 2) mispredictions++;
+                if (arr[index] != 0) arr[index]--;
+            }
 
-        } else if (*str == 'n'){
-            if (arr[index] >= 2) mispredictions++;
-            if (arr[index] != 0) arr[index]--;
+
         }
-
-
     }
 
     printf("OUTPUT\n");
@@ -142,8 +142,10 @@ int main (int argc, char* argv[])
     printf("misprediction rate:       %.2f%\n", ((double)mispredictions/(double)predictions)*100);
     printf("FINAL GSHARE CONTENTS\n");
 
-    for (int i=0; i<len; i++){
-        printf("%u   %u\n", i, arr[i]);
+    if (params.bp_name == "bimodal") {
+        for (int i = 0; i < len; i++) {
+            printf("%u   %u\n", i, arr[i]);
+        }
     }
 
 
